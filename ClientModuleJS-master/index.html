@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Testes</title>
+</head>
+<body>
+	<h1>Testes</h1>
+	<script type="text/javascript" src="scripts/ClientModuleJS.min.js"></script>
+	<script type="text/javascript">
+
+		let Require = new Modules({
+			"path": "scripts/modules/", 
+			"debug": false,
+			"developer": false
+		});
+
+		var Serial = Require("serial"), 
+			User = Require("user"), 
+			Gen = Require("genUser");
+
+		var usuario = new User.CreateUser("Paulo Romao");
+		var gerado = Serial.Generate(10000);
+
+		document.write(Gen.GenUser("Paulao", gerado));
+		document.write("<br/>"+usuario.getNome()+"<br/>"+usuario.getId());
+
+	</script>
+</body>
+</html>

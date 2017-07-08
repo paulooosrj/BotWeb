@@ -3,18 +3,55 @@
   <head>
     <meta charset="utf-8">
     <title>BotWeb</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
   </head>
   <body>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" charset="utf-8"></script>
-    <script src="index.js" charset="utf-8"></script>
+    <script type="text/javascript" src="artyom.js-master/build-vanilla/artyom.min.js"></script>
+    <script src="ClientModuleJS-master/scripts/ClientModuleJS.min.js" charset="utf-8"></script>
     <input type="text" class="BotWebInput">
     <script type="text/javascript">
-      var Bot = BotWeb.init({
+      
+      let Require = new Modules({
+        "path": "modules/", 
+        "debug": true,
+        "developer": false
+      });
+
+      var BotWeb = Require("BotCore").Core,
+          BotRender = Require("BotRender").Core,
+          Loader = Require("HelperLoads").Load;
+
+      var Bot = BotWeb.getInstance({
         name: "Paulon",
         input: $(".BotWebInput")
       });
+
+      Bot.listen("/help", function(msg){
+        this.PoolService.set('mensagem', msg.toUpperCase());
+        var BotModal = BotRender.getInstance();
+        BotModal.Render("Em que posso te ajudar? " + this.PoolService.get('mensagem'));
+      });
+
+      Bot.listen("/falar", function(msg){
+        this.PoolService.set('mensagem', msg.toUpperCase());
+        this.Bot.Falar(this.PoolService.get('mensagem'));
+      });
+
+      Bot.listenVoz('Oi', function(){
+        this.PoolService.set("msg", "Ola tudo bem?");
+        this.Bot.Falar(this.PoolService.get("msg"));
+      });
+
+      Bot.listenVozParam("Meu *", function(res){
+          //var msg = /Meu (.*)/ig.exec(res)[1];
+          console.log(res);
+          this.Bot.Falar(res);
+      });
+
+      Bot.Run();
+
     </script>
   </body>
 </html>
