@@ -1,0 +1,9 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "artyom.js-master/package.json"
+      ]
+    }
+  }
+}
